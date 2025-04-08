@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Contact Manager</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    @vite(['resources/css/app.css'])
+    @if (app()->environment('local'))
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <link rel="stylesheet" href="{{ asset('build/assets/app-abdd23db.css') }}">
+        <script type="module" src="{{ asset('build/assets/app-f8bc0c10.js') }}" defer></script>
+    @endif
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
