@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::all();
+        $contacts = Auth::user()->contacts;
         return view('contacts.index', compact('contacts'));
     }
 
@@ -22,51 +24,74 @@ class ContactController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|min:5',
-            'contact' => 'required|digits:9|unique:contacts',
-            'email' => 'required|email|unique:contacts'
+            'contact' => [
+                'required',
+                'digits:9',
+                Rule::unique('contacts')->where(function ($query) {
+                    return $query->where('user_id', Auth::id());
+                })
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('contacts')->where(function ($query) {
+                    return $query->where('user_id', Auth::id());
+                })
+            ]
         ]);
 
-        Contact::create($validated);
+        Auth::user()->contacts()->create($validated);
 
         return redirect()->route('contacts.index')
-            ->with('success', 'Contato criado com sucesso!');
+            ->with('success', 'Contact created successfully!');
     }
 
-    public function show(string $id)
+    public function show(Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
+        $this->authorize('view', $contact);
         return view('contacts.show', compact('contact'));
     }
 
-    public function edit(string $id)
+    public function edit(Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
+        $this->authorize('update', $contact);
         return view('contacts.edit', compact('contact'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
+        $this->authorize('update', $contact);
 
         $validated = $request->validate([
             'name' => 'required|min:5',
-            'contact' => 'required|digits:9|unique:contacts,contact,'.$contact->id,
-            'email' => 'required|email|unique:contacts,email,'.$contact->id
+            'contact' => [
+                'required',
+                'digits:9',
+                Rule::unique('contacts')->ignore($contact->id)->where(function ($query) {
+                    return $query->where('user_id', Auth::id());
+                })
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('contacts')->ignore($contact->id)->where(function ($query) {
+                    return $query->where('user_id', Auth::id());
+                })
+            ]
         ]);
 
         $contact->update($validated);
 
         return redirect()->route('contacts.index')
-            ->with('success', 'Contato atualizado com sucesso!');
+            ->with('success', 'Contact updated successfully!');
     }
 
-
-    public function destroy(string $id)
+    public function destroy(Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
+        $this->authorize('delete', $contact);
         $contact->delete();
 
         return redirect()->route('contacts.index')
-            ->with('success', 'Contato excluído com sucesso!');
+            ->with('success', 'Contact deleted successfully!');
     }
 }

@@ -2,16 +2,83 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
     background-color: #f5f5f5;
+    min-height: 100vh;
+    margin: 0;
 }
 
 a {
     text-decoration: none;
     color: #2c3e50;
+}
+
+.main-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+}
+
+.nav-bar {
+    background-color: #001f3d;
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.nav-user-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-welcome {
+    color: white;
+    font-weight: 500;
+}
+
+.nav-logout-form {
+    margin: 0;
+}
+
+.nav-logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-logout-btn:hover {
+    background-color: #c0392b;
+}
+
+.nav-logout-btn i {
+    font-size: 0.9rem;
 }
 
 .header {
@@ -42,6 +109,10 @@ button, .btn {
 .btn-primary {
     background-color: #3498db;
     color: white;
+}
+
+.fullsize{
+    width: 100%;
 }
 
 .btn-primary:hover {

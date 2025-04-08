@@ -15,7 +15,7 @@
             <div class="contact-card">
                 <a href="{{ route('contacts.show', $contact->id) }}" class="contact-main-link">
                     <div class="contact-info">
-                        <strong>{{ $contact->name }}</strong> - {{ $contact->email }} - ({{ $contact->contact }})
+                        <strong>{{ $contact->name }}</strong> - {{ $contact->email }}
                         <i class="fas fa-chevron-right contact-arrow"></i>
                     </div>
                 </a>

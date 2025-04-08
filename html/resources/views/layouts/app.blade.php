@@ -8,7 +8,27 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
-    @yield('content')
+    @auth
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="{{ route('home') }}" class="nav-brand">Contact Manager</a>
+            <div class="nav-user-section">
+                <span class="nav-welcome">Welcome, {{ Auth::user()->name }}</span>
+                <form action="{{ route('logout') }}" method="POST" class="nav-logout-form">
+                    @csrf
+                    <button type="submit" class="nav-logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    @endauth
+
+    <main class="main-content">
+        @yield('content')
+    </main>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function confirmDelete(event) {
